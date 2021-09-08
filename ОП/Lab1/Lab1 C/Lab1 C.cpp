@@ -6,7 +6,7 @@ using namespace std;
 int main()
 {
 	// Initializing all needed variables
-	int radius;
+	double radius;
 	double angle_A, angle_B, angle_C;
 	double side_AB, side_AC, side_BC;
 
