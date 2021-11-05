@@ -4,9 +4,11 @@
 #include <functional>
 #include <cmath>
 
+void inputValues(double &a, double &b, int &n);
 double integral(double a, double b, int n, std::function<double(double)> function);
 double logarithm(double x);
 double atanSquared(double x);
+double solution(double a, double b, int n);
 
 int main(void)
 {
@@ -15,16 +17,19 @@ int main(void)
 	int n; // Number of iterations in approximation
 	double result; 
 
+	inputValues(a,b,n);
+	result = solution(a, b, n);
+	std::cout << "The result is: " << result;
+}
+
+void inputValues(double &a, double &b, int &n)
+{
 	std::cout << "Enter a: ";
 	std::cin >> a;
 	std::cout << "Enter b: ";
 	std::cin >> b;
 	std::cout << "Enter n: ";
 	std::cin >> n;
-	
-	result = integral(0.0, M_PI, n, logarithm) + integral(a, b, n, atanSquared);
-
-	std::cout << "The result is: " << result;
 }
 
 double integral(double a, double b, int n, std::function<double(double)> function) // Integral calculator
@@ -48,4 +53,10 @@ double atanSquared(double x) // Second function calculator
 {
 	double atanSquared = pow(atan(x), 2);
 	return atanSquared;
+}
+
+double solution(double a, double b, int n)
+{
+	double result = integral(0.0, M_PI, n, logarithm) + integral(a, b, n, atanSquared);
+	return result;
 }

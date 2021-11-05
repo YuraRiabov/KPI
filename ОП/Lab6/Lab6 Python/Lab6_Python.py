@@ -1,5 +1,11 @@
 import math
 
+def inputValues():
+    a = float(input("Enter a: "))
+    b = float(input("Enter b: "))
+    n = int(input("Enter n: "))
+    return a, b, n
+
 def integral(a, b, n, function):
     integral = 0
     h = (b - a) / n
@@ -8,15 +14,17 @@ def integral(a, b, n, function):
     return integral
 
 def logarithm(x):
-    return math.log(2 + math.sin(x))
+    logarithm = math.log(2 + math.sin(x))
+    return logarithm
 
 def atanSquared(x):
-    return pow(math.atan(x), 2)
+    atanSquared = pow(math.atan(x), 2)
+    return atanSquared
 
-a = float(input("Enter a: "))
-b = float(input("Enter b: "))
-n = int(input("Enter n: "))
+def solution(a, b, n):
+    result = integral(0, math.pi, n, logarithm) + integral(a, b, n, atanSquared)
+    return result
 
-result = integral(0, math.pi, n, logarithm) + integral(a, b, n, atanSquared)
-
+a, b, n = inputValues()
+result = solution(a, b, n)
 print("The result is ", result)
