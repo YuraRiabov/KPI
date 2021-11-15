@@ -5,38 +5,33 @@ using namespace std;
 const int N = 7; // Size of an array
 int arr[N]; // Array
 
-void generateArray(int* arr);
-int findMax(int* array);
-void outputArray(int* arr);
+void GenerateArray(int* arr);
+int FindMax(int* array);
+double FindD(int* array, int max);
+void SubtractFromOdd(double d, int* array);
+void OutputArray(int* arr);
 
 int main()
 {
 	int max; // Max element of an array
 	int d; // Value every element has to be reduced by
 
-	generateArray(arr);
+	GenerateArray(arr);
 	cout << "Generated array: ";
-	outputArray(arr);
+	OutputArray(arr);
 	cout << "\n";
 
-	max = findMax(arr);
-
-	d = 0;
-	for (int i = 0; i < N; i++)
-	{
-		d += (int)pow(arr[i] - max, 2);
-	}
-
-	for (int i = 0; i < N; i += 2)
-	{
-		arr[i] -= d;
-	}
+	max = FindMax(arr);
+	d = FindD(arr, max);
+	SubtractFromOdd(d, arr);
 
 	cout << "New array: ";
-	outputArray(arr);
+	OutputArray(arr);
+
+	system("pause");
 }
 
-void generateArray(int* array) // Function which generates values for initialized array
+void GenerateArray(int* array) // Function which generates values for initialized array
 {
 	srand(time(NULL));
 	for (int i = 0; i < N; i++)
@@ -46,7 +41,7 @@ void generateArray(int* array) // Function which generates values for initialize
 	
 }
 
-int findMax(int* array) // Function which returns the maximum value of an array
+int FindMax(int* array) // Function which returns the maximum value of an array
 {
 	int max = array[1];
 	for (int i = 0; i < N; i++)
@@ -59,7 +54,25 @@ int findMax(int* array) // Function which returns the maximum value of an array
 	return max;
 }
 
-void outputArray(int* arr) // Function which outputs array elements
+double FindD(int* array, int max)
+{
+	double d = 0;
+	for (int i = 0; i < N; i++)
+	{
+		d += (int)pow(array[i] - max, 2);
+	}
+	return d;
+}
+
+void SubtractFromOdd(double d, int* array)
+{
+	for (int i = 0; i < N; i += 2)
+	{
+		arr[i] -= d;
+	}
+}
+
+void OutputArray(int* arr) // Function which outputs array elements
 {
 	for (int i = 0; i < N; i++)
 	{
