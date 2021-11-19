@@ -28,11 +28,12 @@ int main()
 
 	cout << "New array: ";
 	OutputArray(array, size);
+	delete(array);
 
 	system("pause");
 }
 
-int* GenerateArray(int size) // Function which generates values for initialized array
+int* GenerateArray(int size) 
 {
 	int* array = new int[size];
 	srand(time(NULL));
@@ -43,7 +44,7 @@ int* GenerateArray(int size) // Function which generates values for initialized 
 	return array;
 }
 
-int FindMax(int* array, int size) // Function which returns the maximum value of an array
+int FindMax(int* array, int size)
 {
 	int max = array[0];
 	for (int i = 1; i < size; i++)
@@ -56,6 +57,7 @@ int FindMax(int* array, int size) // Function which returns the maximum value of
 	return max;
 }
 
+// D is a value every odd element has to be reduced by
 double FindD(int* array, int max, int size)
 {
 	double d = 0;
@@ -74,7 +76,7 @@ void SubtractFromOdd(double d, int* array, int size)
 	}
 }
 
-void OutputArray(int* array, int size) // Function which outputs array elements
+void OutputArray(int* array, int size)
 {
 	for (int i = 0; i < size; i++)
 	{
