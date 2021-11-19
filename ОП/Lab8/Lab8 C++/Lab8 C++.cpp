@@ -9,6 +9,7 @@ void MoveDiagonallyUp(int** matrix, int& currentNumber, int& currentRow, int& cu
 void MoveDiagonallyDown(int** matrix, int& currentNumber, int& currentRow, int& currentColumn, int size);
 void OutputMatrix(int** matrix, int matrixSize);
 void OutputCorners(int** matrix, int matrixSize);
+void DeleteMatrix(int** matrix, int rowNumber);
 
 int main()
 {
@@ -24,6 +25,7 @@ int main()
 	cout << "Corner elements of the matrix: ";
 	OutputCorners(matrix, matrixSize);
 	cout << "\nMaximum corner element of the matrix: " << matrix[0][0] << "\n";
+	DeleteMatrix(matrix, matrixSize);
 
 	system("pause");
 }
@@ -117,4 +119,13 @@ void OutputMatrix(int** matrix, int matrixSize)
 void OutputCorners(int** matrix, int matrixSize)
 {
 	cout << matrix[0][0] << " " << matrix[matrixSize - 1][0] << " " << matrix[0][matrixSize - 1] << " " << matrix[matrixSize - 1][matrixSize - 1];
+}
+
+void DeleteMatrix(int** matrix, int rowNumber)
+{
+	for (int i = 0; i < rowNumber; i++)
+	{
+		delete(matrix[i]);
+	}
+	delete(matrix);
 }
