@@ -7,7 +7,7 @@ int** CreateMatrix(int rowNumber, int columnNumber);
 void FillByPattern(int** matrix, int matrixSize);
 void MoveDiagonallyUp(int** matrix, int& currentNumber, int& currentRow, int& currentColumn, int size);
 void MoveDiagonallyDown(int** matrix, int& currentNumber, int& currentRow, int& currentColumn, int size);
-void OutputMatrix(int** matrix, int rowNumber, int columnNumber);
+void OutputMatrix(int** matrix, int matrixSize);
 void OutputCorners(int** matrix, int matrixSize);
 
 int main()
@@ -20,7 +20,7 @@ int main()
 
 	matrix = CreateMatrix(matrixSize, matrixSize);
 	FillByPattern(matrix, matrixSize);
-	OutputMatrix(matrix, matrixSize, matrixSize);
+	OutputMatrix(matrix, matrixSize);
 	cout << "Corner elements of the matrix: ";
 	OutputCorners(matrix, matrixSize);
 	cout << "\nMaximum corner element of the matrix: " << matrix[0][0] << "\n";
@@ -102,14 +102,13 @@ void MoveDiagonallyDown(int** matrix, int& currentNumber, int& currentRow, int& 
 	currentColumn++;
 }
 
-// Function which outputs a matrix
-void OutputMatrix(int** matrix, int rowNumber, int columnNumber)
+void OutputMatrix(int** matrix, int matrixSize)
 {
-	for (int i = 0; i < rowNumber; i++)
+	for (int i = 0; i < matrixSize; i++)
 	{
-		for (int j = 0; j < columnNumber; j++)
+		for (int j = 0; j < matrixSize; j++)
 		{
-			cout << setw(4) << matrix[i][j];
+			cout << setw((int)log10(pow(matrixSize, 2)) + 2) << matrix[i][j];
 		}
 		cout << "\n";
 	}
