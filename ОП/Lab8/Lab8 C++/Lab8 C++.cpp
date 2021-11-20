@@ -21,6 +21,7 @@ int main()
 
 	matrix = CreateMatrix(matrixSize, matrixSize);
 	FillByPattern(matrix, matrixSize);
+	cout << "Generated matrix:\n";
 	OutputMatrix(matrix, matrixSize);
 	cout << "Corner elements of the matrix: ";
 	OutputCorners(matrix, matrixSize);

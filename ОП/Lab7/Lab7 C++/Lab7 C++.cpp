@@ -4,7 +4,7 @@ using namespace std;
 
 int* GenerateArray(int size);
 int FindMax(int* array, int size);
-double FindD(int* array, int max, int size);
+int FindD(int* array, int max, int size);
 void SubtractFromOdd(double d, int* array, int size);
 void OutputArray(int* array, int size);
 
@@ -23,7 +23,11 @@ int main()
 	OutputArray(array, size);
 
 	max = FindMax(array, size);
+	cout << "Maximum element of the array: " << max << "\n";
+
 	d = FindD(array, max, size);
+	cout << "The value every odd element has to be reduced by: " << d << "\n";
+
 	SubtractFromOdd(d, array, size);
 
 	cout << "New array: ";
@@ -58,9 +62,9 @@ int FindMax(int* array, int size)
 }
 
 // D is a value every odd element has to be reduced by
-double FindD(int* array, int max, int size)
+int FindD(int* array, int max, int size)
 {
-	double d = 0;
+	int d = 0;
 	for (int i = 0; i < size; i++)
 	{
 		d += (int)pow(array[i] - max, 2);
