@@ -132,7 +132,7 @@ void DeleteMatrix(double** matrix)
 {
 	for (int i = 0; i < 6; i++)
 	{
-		delete(matrix[i]);
+		delete[] matrix[i];
 	}
-	delete(matrix);
+	delete[] matrix;
 }
