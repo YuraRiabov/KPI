@@ -68,7 +68,7 @@ double FindAvergeNegative(double** matrix, int row)
 	int numberOfNegative = 0;
 	double averageNegative;
 
-	for (int i = 0; i < 6; i++)
+	for (int i = 0; i < 5; i++)
 	{
 		if (matrix[row][i] < 0)
 		{
