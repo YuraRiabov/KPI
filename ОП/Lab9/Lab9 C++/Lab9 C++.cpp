@@ -1,68 +1,115 @@
 ﻿#include <iostream>
-#include <vector>
 #include <string>
 using namespace std;
 
-void splitString(vector<string>& vect, string str);
+string* SplitString(string line, int& size);
+void DeleteEven(string* array, int& size);
+void DeleteElement(string* array, int& size, int index);
+string FindLongestWord(string* array, int size);
+string JoinToString(string* array, int size);
 
 int main()
 {
-	string line; // Initial line of words
-	vector<string> listOfWords; // Vector which is going to contain words as it's elements
-	string longestOdd; // Longest word in odd position
+	string line;
+	string newLine;
+	string* listOfWords;
+	string longestWord;
+	int size = 0;
 
-	cout << "Enter a line: ";
+	cout << "Enter string: ";
 	getline(cin, line);
-
-	splitString(listOfWords, line);
-
-	if (listOfWords.size() == 0)
-	{
-		cout << "New line is: " << line << "\nThe longest word in odd position is " << line;
-	}
-	else
-	{
-		for (int i = listOfWords.size() - 1; i >= 0; i--)
-		{
-			if (i % 2 == 1)
-			{
-				listOfWords.erase(listOfWords.begin() + i);
-			}
-		}
-
-		longestOdd = listOfWords[0];
-		for (int i = 0; i < listOfWords.size(); i++)
-		{
-			if (listOfWords[i].size() > longestOdd.size())
-			{
-				longestOdd = listOfWords[i];
-			}
-		}
-
-		cout << "New line is: ";
-		for (int i = 0; i < listOfWords.size(); i++)
-		{
-			cout << " " << listOfWords[i];
-		}
-		cout << "\nThe longest word in odd position is " << longestOdd;
-	}
+	listOfWords = SplitString(line, size);
+	DeleteEven(listOfWords, size);
+	longestWord = FindLongestWord(listOfWords, size);
+	newLine = JoinToString(listOfWords, size);
+	cout << "New string: " << newLine;
+	cout << "\nLongest word in odd position: " << longestWord << "\n";
+	delete[] listOfWords;
+	system("pause");
 }
 
-// Function which splits a line into single words and adds them to a vector
-void splitString(vector<string>& vect, string str) 
+string* SplitString(string line, int& size)
 {
-	string buffer = ""; // Buffer which will contain words until they are added to vector
-	for (int i = 0; i < str.size(); i++)
+	int maxWordCount = line.size() / 2 + 1;
+	string* temporaryListOfWords = new string[maxWordCount];
+	string buffer = "";
+	int arrayIndex = 0;
+	for (int i = 0; i < line.size(); i++)
 	{
-		if (str[i] != ' ')
+		if (line[i] == ' ')
 		{
-			buffer.push_back(str[i]);
+			temporaryListOfWords[arrayIndex] = buffer;
+			buffer = "";
+			arrayIndex++;
 		}
 		else
 		{
-			vect.push_back(buffer);
-			buffer = "";
+			buffer += line[i];
 		}
 	}
-	vect.push_back(buffer);
+	temporaryListOfWords[arrayIndex] = buffer;
+
+	size = arrayIndex + 1;
+	string* listOfWords = new string[size];
+	for (int i = 0; i < size; i++)
+	{
+		listOfWords[i] = temporaryListOfWords[i];
+	}
+	delete[] temporaryListOfWords;
+
+	return listOfWords;
+}
+
+void DeleteEven(string* array, int& size)
+{
+	for (int i = size - 1; i > 0; i--)
+	{
+		if (i % 2 == 1)
+		{
+			DeleteElement(array, size, i);
+		}
+	}
+}
+
+void DeleteElement(string* array, int& size, int index)
+{
+	string* buffer = new string[size - 1];
+	for (int i = 0; i < index; i++)
+	{
+		buffer[i] = array[i];
+	}
+	for (int i = index + 1; i < size; i++)
+	{
+		buffer[i - 1] = array[i];
+	}
+	for (int i = 0; i < size - 1; i++)
+	{
+		array[i] = buffer[i];
+	}
+	delete[] buffer;
+	size--;
+}
+
+string FindLongestWord(string* array, int size)
+{
+	string longestWord = array[0];
+	for (int i = 1; i < size; i++)
+	{
+		if (array[i].size() > longestWord.size())
+		{
+			longestWord = array[i];
+		}
+	}
+	return longestWord;
+}
+
+string JoinToString(string* array, int size)
+{
+	string line = "";
+	for (int i = 0; i < size - 1; i++)
+	{
+		line += array[i] + " ";
+	}
+	line += array[size - 1];
+	return line;
 }
