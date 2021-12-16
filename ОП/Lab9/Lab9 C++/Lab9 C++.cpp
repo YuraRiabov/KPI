@@ -18,12 +18,15 @@ int main()
 
 	cout << "Enter string: ";
 	getline(cin, line);
+
 	listOfWords = SplitString(line, size);
 	DeleteEven(listOfWords, size);
 	longestWord = FindLongestWord(listOfWords, size);
 	newLine = JoinToString(listOfWords, size);
+
 	cout << "New string: " << newLine;
 	cout << "\nLongest word in odd position: " << longestWord << "\n";
+
 	delete[] listOfWords;
 	system("pause");
 }
@@ -31,14 +34,15 @@ int main()
 string* SplitString(string line, int& size)
 {
 	int maxWordCount = line.size() / 2 + 1;
-	string* temporaryListOfWords = new string[maxWordCount];
+	string* listOfWords = new string[maxWordCount];
 	string buffer = "";
 	int arrayIndex = 0;
+
 	for (int i = 0; i < line.size(); i++)
 	{
 		if (line[i] == ' ')
 		{
-			temporaryListOfWords[arrayIndex] = buffer;
+			listOfWords[arrayIndex] = buffer;
 			buffer = "";
 			arrayIndex++;
 		}
@@ -47,15 +51,9 @@ string* SplitString(string line, int& size)
 			buffer += line[i];
 		}
 	}
-	temporaryListOfWords[arrayIndex] = buffer;
+	listOfWords[arrayIndex] = buffer;
 
 	size = arrayIndex + 1;
-	string* listOfWords = new string[size];
-	for (int i = 0; i < size; i++)
-	{
-		listOfWords[i] = temporaryListOfWords[i];
-	}
-	delete[] temporaryListOfWords;
 
 	return listOfWords;
 }
@@ -73,20 +71,10 @@ void DeleteEven(string* array, int& size)
 
 void DeleteElement(string* array, int& size, int index)
 {
-	string* buffer = new string[size - 1];
-	for (int i = 0; i < index; i++)
-	{
-		buffer[i] = array[i];
-	}
 	for (int i = index + 1; i < size; i++)
 	{
-		buffer[i - 1] = array[i];
+		array[i - 1] = array[i];
 	}
-	for (int i = 0; i < size - 1; i++)
-	{
-		array[i] = buffer[i];
-	}
-	delete[] buffer;
 	size--;
 }
 
