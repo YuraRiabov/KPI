@@ -19,7 +19,7 @@ namespace PB_Lab2._3
             }
             set
             {
-                if (value[3] == '-' && int.TryParse(value.Substring(0, 2), out int hours) && int.TryParse(value.Substring(3, 2), out int minutes))
+                if (value[2] == '-' && int.TryParse(value.Substring(0, 2), out int hours) && int.TryParse(value.Substring(3, 2), out int minutes))
                 {
                     departureTime = new TimeOnly(hours, minutes); 
                 }
@@ -29,6 +29,7 @@ namespace PB_Lab2._3
                 }
             }
         }
+        public TimeOnly GetDepartureTime() => departureTime;
         private Train(int number, string destination)
         {
             this.Number = number;
