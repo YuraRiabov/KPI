@@ -18,5 +18,22 @@ namespace PB_Lab2._1__Cs
                 }
             }
         }
+        public List<string> GetFileContent(string fileName, int lastLinesQuantity = int.MaxValue)
+        {
+            List<string> text = new List<string>();
+            using (StreamReader sr = new StreamReader(fileName))
+            {
+                string? line;
+                while ((line = sr.ReadLine()) != null)
+                {
+                    text.Add(line);
+                }
+            }
+            if (text.Count > lastLinesQuantity)
+            {
+                text.RemoveRange(0, text.Count - lastLinesQuantity);
+            }
+            return text;
+        }
     }
 }
