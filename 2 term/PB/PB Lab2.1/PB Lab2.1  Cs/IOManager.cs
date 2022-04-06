@@ -11,26 +11,34 @@ namespace PB_Lab2._1__Cs
         public List<string> GetText()
         {
             List<string> text = new List<string>();
-            string currentString = "";
-            ConsoleKeyInfo currentKey = Console.ReadKey();
-            while (currentKey.Equals(ConsoleKey.E) == false || currentKey.Modifiers.Equals(ConsoleModifiers.Shift) == false)
+            string currentLine = "";
+            bool continueEntering = true;
+            while (continueEntering)
             {
-                if (currentKey.Equals(ConsoleKey.Enter))
+                ConsoleKeyInfo keyInput = Console.ReadKey();
+
+                if (keyInput.Key == ConsoleKey.E && keyInput.Modifiers == ConsoleModifiers.Shift)
                 {
-                    text.Add(currentString);
-                    currentString = "";
+                    text.Add(currentLine);
+                    currentLine = "";
+                    continueEntering = false;
+                }
+                else if (keyInput.Key == ConsoleKey.Enter)
+                {
+                    text.Add(currentLine);
+                    currentLine = "";
                     Console.CursorTop++;
                 }
-                else if (currentKey.Equals(ConsoleKey.Backspace))
+                else if (keyInput.Key == ConsoleKey.Backspace)
                 {
-                    currentString = currentString.Remove(currentString.Length - 1);
+                    currentLine = currentLine.Substring(0, currentLine.Length - 1);
+                    Console.Write(' ');
                     Console.CursorLeft--;
                 }
                 else
                 {
-                    currentString += currentKey.KeyChar;
+                    currentLine += keyInput.KeyChar;
                 }
-                currentKey = Console.ReadKey();
             }
             return text;
         }
