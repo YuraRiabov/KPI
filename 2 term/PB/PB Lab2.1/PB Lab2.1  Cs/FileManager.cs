@@ -35,5 +35,29 @@ namespace PB_Lab2._1__Cs
             }
             return text;
         }
+
+        public int RemoveRepeatingLines(string fileName)
+        {
+            List<string> text = GetFileContent(fileName);
+            int deleted = 0;
+            foreach (string line in text)
+            {
+                int count = 0;
+                foreach (string line2 in text)
+                {
+                    if (line == line2)
+                    {
+                        count++;
+                    }
+                }
+                if (count > 1)
+                {
+                    deleted += count;
+                    text.RemoveAll(x => x == line);
+                }
+            }
+            WriteToFile(fileName, text);
+            return deleted;
+        }
     }
 }
