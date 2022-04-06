@@ -17,10 +17,12 @@ namespace PB_Lab2._1__Cs
             {
                 ConsoleKeyInfo keyInput = Console.ReadKey();
 
-                if (keyInput.Key == ConsoleKey.E && keyInput.Modifiers == ConsoleModifiers.Shift)
+                if (keyInput.Key == ConsoleKey.E && keyInput.Modifiers == ConsoleModifiers.Control)
                 {
                     text.Add(currentLine);
                     currentLine = "";
+                    Console.CursorLeft--;
+                    Console.Write(' ');
                     continueEntering = false;
                 }
                 else if (keyInput.Key == ConsoleKey.Enter)
