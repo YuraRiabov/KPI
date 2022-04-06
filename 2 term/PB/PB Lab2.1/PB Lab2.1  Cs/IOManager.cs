@@ -51,7 +51,7 @@ namespace PB_Lab2._1__Cs
         }
         public int AskLastLinesNumber()
         {
-            Console.WriteLine("Enter number of last lines to transfer: ");
+            Console.WriteLine("\nEnter number of last lines to transfer: ");
             int number;
             while (!int.TryParse(Console.ReadLine(), out number))
             {
@@ -70,6 +70,19 @@ namespace PB_Lab2._1__Cs
             {
                 return false;
             }
+        }
+
+        public void OutputText(List<string> text)
+        {
+            Console.WriteLine("New file:");
+            foreach (string line in text)
+            {
+                Console.WriteLine(line);
+            }
+        }
+        public void OutputLinesRemoved(int removed)
+        {
+            Console.WriteLine($"Lines removed: {removed}");
         }
     }
 }

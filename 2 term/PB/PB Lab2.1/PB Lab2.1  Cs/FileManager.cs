@@ -40,8 +40,9 @@ namespace PB_Lab2._1__Cs
         {
             List<string> text = GetFileContent(fileName);
             int deleted = 0;
-            foreach (string line in text)
+            for (int i = 0; i < text.Count; i++)
             {
+                string line = text[i];
                 int count = 0;
                 foreach (string line2 in text)
                 {
@@ -54,6 +55,7 @@ namespace PB_Lab2._1__Cs
                 {
                     deleted += count;
                     text.RemoveAll(x => x == line);
+                    i = 0;
                 }
             }
             WriteToFile(fileName, text);
