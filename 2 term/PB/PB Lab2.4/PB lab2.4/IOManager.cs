@@ -10,7 +10,7 @@ namespace PB_lab2._4
     {
         public void OutputTime(string name, Time time)
         {
-            Console.WriteLine($"{name} is {time.Hours}:{time.Minutes}:{time.Seconds}");
+            Console.WriteLine("{0} is {1:d2}:{2:d2}:{3:d2}", name, time.Hours, time.Minutes, time.Seconds);
         }
         public void CompareTimes(Time time1, Time time2, string time1Name, string time2Name)
         {
