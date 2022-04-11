@@ -15,7 +15,7 @@ namespace PB_Lab2._2_cs
             string? comingTime;
             string? leavingTime;
             List<Client> clients = fileManager.ReadAllClients(fileName);
-            Console.WriteLine("To input a new client, press a, else press Enter");
+            Console.WriteLine("To input a new client, press a, else press Enter: ");
             string? input = Console.ReadLine();
             while(input == "a")
             {
@@ -67,6 +67,17 @@ namespace PB_Lab2._2_cs
                 return false;
             }
             return true;
+        }
+        public void AskAppending(string fileName)
+        {
+            Console.Write("If you want to update existing file(if there is one), press a, otherwise press Enter: ");
+            if (Console.ReadLine() != "a")
+            {
+                if (File.Exists(fileName))
+                {
+                    File.Delete(fileName);
+                }
+            }
         }
     }
 }
