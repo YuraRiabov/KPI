@@ -15,7 +15,7 @@ namespace PB_Lab2._2_cs
             string? comingTime;
             string? leavingTime;
             List<Client> clients = fileManager.ReadAllClients(fileName);
-            Console.WriteLine("To input a new client, press a, else press Enter: ");
+            Console.Write("To input a new client, press a, else press Enter: ");
             string? input = Console.ReadLine();
             while(input == "a")
             {
@@ -39,7 +39,7 @@ namespace PB_Lab2._2_cs
                 {
                     Console.WriteLine("Either time format is wrong or timespan isn't free, client not added");
                 }
-                Console.WriteLine("To input a new client, press a, else press Enter");
+                Console.Write("To input a new client, press a, else press Enter: ");
                 input = Console.ReadLine();
             }
         }
@@ -78,6 +78,72 @@ namespace PB_Lab2._2_cs
                     File.Delete(fileName);
                 }
             }
+        }
+        public (int firstHalf, int secondHalf) GetFreePeriods(List<Client> sortedClients)
+        {
+            int firstHalf = 0;
+            int secondHalf = 0;
+            foreach (Client client in sortedClients)
+            {
+                if (sortedClients.IndexOf(client) == 0)
+                {
+                    if (client.ComingTime > Client.WorkStartTime )
+                    {
+                        firstHalf++;
+                        if(client.ComingTime > Client.FirstHalfEnd)
+                        {
+                            secondHalf++;
+                        }
+                        if (sortedClients.IndexOf(client) == sortedClients.Count - 1)
+                        {
+                            if (client.LeavingTime < Client.WorkEndTime)
+                            {
+                                secondHalf++;
+                                if (client.LeavingTime < Client.FirstHalfEnd)
+                                {
+                                    firstHalf++;
+                                }
+                            }
+                        }
+                    }
+                }
+                else
+                {
+                    if (client.ComingTime > sortedClients[sortedClients.IndexOf(client) - 1].LeavingTime)
+                    {
+                        if (client.ComingTime > Client.FirstHalfEnd)
+                        {
+                            secondHalf++;
+                            if (sortedClients[sortedClients.IndexOf(client) - 1].LeavingTime < Client.FirstHalfEnd)
+                            {
+                                firstHalf++;
+                            }
+                        }
+                        else
+                        {
+                            firstHalf++;
+                        }
+                    }
+                    if (sortedClients.IndexOf(client) == sortedClients.Count - 1)
+                    {
+                        if (client.LeavingTime < Client.WorkEndTime)
+                        {
+                            secondHalf++;
+                            if (client.LeavingTime < Client.FirstHalfEnd)
+                            {
+                                firstHalf++;
+                            }
+                        }
+                    }
+                }
+            }
+            return (firstHalf, secondHalf);
+        }
+        public void OutputFreeTime(List<Client> sortedClients)
+        {
+            (int firsthalf, int secondHalf) = GetFreePeriods(sortedClients);
+            Console.WriteLine($"Free time periods in first half of the day: {firsthalf}");
+            Console.WriteLine($"Free time periods in second half of the day: {secondHalf}");
         }
     }
 }

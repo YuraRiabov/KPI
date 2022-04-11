@@ -13,12 +13,11 @@ namespace PB_Lab2._2_cs
             IOManager iOManager = new IOManager();
             FileManager fileManager = new FileManager();
             const string fileName = "Clients.dat";
+            iOManager.AskAppending(fileName);
             iOManager.GetClients(fileName);
-            List<Client> clients = fileManager.ReadAllClients(fileName);
-            foreach (Client client in clients)
-            {
-                Console.WriteLine(client.Name);
-            }
+            List<Client> clients = fileManager.ReadAllClients(fileName).OrderBy(x => x.ComingTime).ToList();
+            iOManager.OutputFreeTime(clients);
+            Console.ReadLine();
         }
     }
 }

@@ -13,7 +13,7 @@ namespace PB_Lab2._2_cs
             FileInfo fileInfo = new FileInfo(fileName);
             if (!fileInfo.Exists)
             {
-                fileInfo.Create();
+                fileInfo.Create().Close();
             }
             using (FileStream fs = fileInfo.Open(FileMode.Append))
             {
