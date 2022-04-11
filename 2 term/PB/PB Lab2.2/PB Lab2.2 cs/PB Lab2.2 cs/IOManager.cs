@@ -11,7 +11,7 @@ namespace PB_Lab2._2_cs
         public void GetClients(string fileName)
         {
             FileManager fileManager = new FileManager();
-            string? name;
+            string name;
             string? comingTime;
             string? leavingTime;
             List<Client> clients = fileManager.ReadAllClients(fileName);
@@ -20,7 +20,7 @@ namespace PB_Lab2._2_cs
             while(input == "a")
             {
                 Console.Write("Enter clients name: ");
-                name = Console.ReadLine();
+                name = Console.ReadLine() ?? " ";
                 Console.Write("Enter coming time: ");
                 comingTime = Console.ReadLine();
                 Console.Write("Enter leaving time: ");
@@ -54,7 +54,9 @@ namespace PB_Lab2._2_cs
                     if (firstTime < client.LeavingTime && firstTime > client.ComingTime ||
                         secondTime < client.LeavingTime && secondTime > client.ComingTime ||
                         firstTime < client.ComingTime && secondTime > client.LeavingTime ||
-                        firstTime > secondTime)
+                        firstTime > secondTime ||
+                        firstTime < Client.WorkStartTime ||
+                        secondTime > Client.WorkEndTime)
                     {
                         return false;
                     } 
