@@ -8,7 +8,7 @@ namespace PB_Lab2._5_cs
 {
     public class IOManager
     {
-        public static List<Prism> GetPrisms()
+        public List<Prism> GetPrisms()
         {
             List<Prism> prisms = new List<Prism>();
             Console.Write("Enter number of prisms you want to enter: ");
@@ -42,6 +42,29 @@ namespace PB_Lab2._5_cs
                 }
             }
             return prisms;
+        }
+        private (double volumeSum, double surfaceSum) ProcessPrisms(List<Prism> prisms)
+        {
+            double volumeSum = 0;
+            double surfaceSum = 0;
+            foreach (Prism prism in prisms)
+            {
+                if (prism is Prism3)
+                {
+                    volumeSum += prism.CalculateVolume();
+                }
+                else if (prism is Prism4)
+                {
+                    surfaceSum += prism.CalculateSurface();
+                }
+            }
+            return (volumeSum, surfaceSum);
+        }
+        public void GetVolumeSurfaceData(List<Prism> prisms)
+        {
+            (double volumeSum, double surfaceSum) = ProcessPrisms(prisms);
+            Console.WriteLine($"Sum of volumes of triangular prisms: {volumeSum}");
+            Console.WriteLine($"Sume of surfaces of square prisms: {surfaceSum}");
         }
     }
 }
