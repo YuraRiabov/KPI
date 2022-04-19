@@ -10,3 +10,12 @@ def get_text():
         else:
             text.append(line)
     return text
+
+
+def ask_appending():
+    writing_option = input("If yoy want to append to existing file press 'a', otherwise press Enter: ")
+    if writing_option == "a":
+        return True
+    else:
+        return False
+

@@ -6,5 +6,8 @@ if __name__ == "__main__":
     second_file_name = "second_file_txt"
 
     text = get_text()
-    write_to_file(first_file_name, text)
+    appending = ask_appending()
+    write_to_file(first_file_name, text, appending)
     last_lines_number = int(input("Enter number of last lines to transfer: "))
+    new_text = read_last_lines(first_file_name, last_lines_number)
+    write_to_file(second_file_name, new_text, appending)
