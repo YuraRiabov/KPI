@@ -74,7 +74,6 @@ namespace PB_Lab2._1__Cs
 
         public void OutputText(List<string> text)
         {
-            Console.WriteLine("New file:");
             foreach (string line in text)
             {
                 Console.WriteLine(line);
