@@ -17,7 +17,7 @@ namespace PB_Lab2._2_cs
             List<Client> clients = fileManager.ReadAllClients(fileName);
             Console.Write("To input a new client, press a, else press Enter: ");
             string? input = Console.ReadLine();
-            while(input == "a")
+            while (input == "a")
             {
                 Console.Write("Enter clients name: ");
                 name = Console.ReadLine() ?? " ";
@@ -43,20 +43,31 @@ namespace PB_Lab2._2_cs
                 input = Console.ReadLine();
             }
         }
+        public void OutputSchedule(List<Client> clients)
+        {
+            Console.WriteLine("Manager's schedule:");
+            foreach (Client client in clients)
+            {
+                Console.WriteLine($"{client.Name} : {client.ComingTime.ToShortTimeString()} - {client.LeavingTime.ToShortTimeString()}");
+            }
+        }
         public bool CheckInput(string? comingTime, string? leavingTime, List<Client> clients)
         {
             TimeOnly firstTime;
             TimeOnly secondTime;
             if (TimeOnly.TryParse(comingTime, out firstTime) && TimeOnly.TryParse(leavingTime, out secondTime))
             {
+                if (firstTime > secondTime ||
+                    firstTime < Client.WorkStartTime ||
+                    secondTime > Client.WorkEndTime)
+                {
+                    return false;
+                }
                 foreach (Client client in clients)
                 {
                     if (firstTime < client.LeavingTime && firstTime > client.ComingTime ||
                         secondTime < client.LeavingTime && secondTime > client.ComingTime ||
-                        firstTime < client.ComingTime && secondTime > client.LeavingTime ||
-                        firstTime > secondTime ||
-                        firstTime < Client.WorkStartTime ||
-                        secondTime > Client.WorkEndTime)
+                        firstTime < client.ComingTime && secondTime > client.LeavingTime)
                     {
                         return false;
                     } 

@@ -16,6 +16,7 @@ namespace PB_Lab2._2_cs
             iOManager.AskAppending(fileName);
             iOManager.GetClients(fileName);
             List<Client> clients = fileManager.ReadAllClients(fileName).OrderBy(x => x.ComingTime).ToList();
+            iOManager.OutputSchedule(clients);
             iOManager.OutputFreeTime(clients);
             Console.ReadLine();
         }
