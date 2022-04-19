@@ -1,12 +1,10 @@
 def write_to_file(file_name, text, appending):
     if appending:
         file = open(file_name, 'a')
-        file.write("\n" + text[0])
+        text = "\n" + text
     else:
         file = open(file_name, 'w')
-        file.write(text[0])
-    for i in range(1, len(text)):
-        file.write("\n" + text[i])
+    file.writelines(text)
     file.close()
 
 
@@ -19,13 +17,34 @@ def read_last_lines(file_name, number):
     new_text = []
     for i in range(starting_index, len(text)):
         new_text.append(text[i])
-    return new_text
+    return "\n".join(new_text)
 
 
 def read_all_lines(file_name):
     with open(file_name) as file:
-        text = []
-        for line in file:
-            text.append(line)
+        text = file.readlines()
+    text_string = ''.join(text)
+    text = text_string.split("\n")
     return text
+
+
+def remove_repeating_lines(file_name):
+    text = read_all_lines(file_name)
+    removed = 0
+    i = 0
+    while i < len(text):
+        count = 0
+        current_line = text[i]
+        for line in text:
+            if line == text[i]:
+                count += 1
+        if count > 1:
+            removed += count
+            for j in range(count):
+                text.remove(current_line)
+            i = 0
+        else:
+            i += 1
+    write_to_file(file_name, "\n".join(text), False)
+    return removed
 

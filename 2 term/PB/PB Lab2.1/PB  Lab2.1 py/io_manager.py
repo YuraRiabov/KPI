@@ -9,7 +9,7 @@ def get_text():
             keep_inputting = False
         else:
             text.append(line)
-    return text
+    return "\n".join(text)
 
 
 def ask_appending():
@@ -18,4 +18,10 @@ def ask_appending():
         return True
     else:
         return False
+
+
+def output_text(text):
+    for line in text:
+        print(line)
+
 
