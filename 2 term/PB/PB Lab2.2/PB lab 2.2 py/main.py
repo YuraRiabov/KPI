@@ -5,7 +5,7 @@ if __name__ == '__main__':
     file_name = "clients.txt"
 
     writing_option = ask_writing_option()
-    clients = input_clients(file_name)
+    clients = input_clients(file_name, writing_option)
     write_to_file(file_name, clients, writing_option)
     print("Schedule:")
     output_clients(file_name)

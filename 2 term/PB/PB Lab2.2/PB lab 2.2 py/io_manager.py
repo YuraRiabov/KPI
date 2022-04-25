@@ -2,15 +2,16 @@ from Client import *
 from file_manager import *
 
 
-def input_clients(file_name):
+def input_clients(file_name, writing_option):
     old_clients = []
     new_clients = []
-    try:
-        for client in read_all_clients(file_name):
-            for i in range(len(client)):
-                old_clients.append(client[i])
-    except FileNotFoundError:
-        pass
+    if writing_option == 'ab':
+        try:
+            for client in read_all_clients(file_name):
+                for i in range(len(client)):
+                    old_clients.append(client[i])
+        except FileNotFoundError:
+            pass
     character = input("If you want to add client, press a, otherwise press Enter: ")
     while character == 'a':
         name = input("Enter client's name: ")
