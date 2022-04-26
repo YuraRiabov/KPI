@@ -13,7 +13,7 @@ namespace PB_lab2._4
             IOManager iOManager = new IOManager();
             string firstTimeName = "T1";
             string secondTimeName = "T2";
-            string thirdTimeName = "T2";
+            string thirdTimeName = "T3";
             Random random = new Random();
             Time firstTime = new Time(random.Next(0, 24));
             Time secondTime = new Time(random.Next(0, 24), random.Next(0, 60));

@@ -30,17 +30,17 @@ namespace PB_lab2._4
             int hours;
             int minutes;
             int seconds;
-            Console.WriteLine("Enter hours:");
+            Console.Write("Enter hours:");
             while(!int.TryParse(Console.ReadLine(), out hours))
             {
                 Console.WriteLine("Invalid input, try again");
             }
-            Console.WriteLine("Enter minutes:");
+            Console.Write("Enter minutes:");
             while (!int.TryParse(Console.ReadLine(), out minutes))
             {
                 Console.WriteLine("Invalid input, try again");
             }
-            Console.WriteLine("Enter seconds:");
+            Console.Write("Enter seconds:");
             while (!int.TryParse(Console.ReadLine(), out seconds))
             {
                 Console.WriteLine("Invalid input, try again");
