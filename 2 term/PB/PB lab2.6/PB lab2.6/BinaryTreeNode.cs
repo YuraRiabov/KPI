@@ -6,7 +6,18 @@ using System.Threading.Tasks;
 
 namespace PB_lab2._6
 {
-    internal class TreeNode
+    public class BinaryTreeNode<T>
     {
+        public T Value { get; set; }
+        public BinaryTreeNode<T>? LeftChild { get; set; }
+        public BinaryTreeNode<T>? RightChild { get; set; }
+
+        public BinaryTreeNode(T value)
+        {
+            Value = value;
+            LeftChild = null;
+            RightChild = null;
+        }
+
     }
 }
