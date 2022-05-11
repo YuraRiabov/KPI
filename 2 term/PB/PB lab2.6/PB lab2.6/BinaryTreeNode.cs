@@ -6,13 +6,13 @@ using System.Threading.Tasks;
 
 namespace PB_lab2._6
 {
-    public class BinaryTreeNode<T>
+    public class BinaryTreeNode
     {
-        public T Value { get; set; }
-        public BinaryTreeNode<T>? LeftChild { get; set; }
-        public BinaryTreeNode<T>? RightChild { get; set; }
+        public string Value { get; set; }
+        public BinaryTreeNode? LeftChild { get; set; }
+        public BinaryTreeNode? RightChild { get; set; }
 
-        public BinaryTreeNode(T value)
+        public BinaryTreeNode(string value)
         {
             Value = value;
             LeftChild = null;
