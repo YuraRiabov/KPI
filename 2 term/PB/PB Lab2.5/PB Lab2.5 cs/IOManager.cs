@@ -31,13 +31,13 @@ namespace PB_Lab2._5_cs
                         else
                         {
                             Console.WriteLine("Wrong number of sides entered, try inputing this prism again");
-                            prismCount--;
+                            i--;
                         }
                     }
                     catch (Exception ex)
                     {
                         Console.WriteLine("Something went wrong, try inputing this prism again");
-                        prismCount--;
+                        i--;
                     }
                 }
             }
