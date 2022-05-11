@@ -22,11 +22,11 @@ namespace PB_Lab2._5_cs
                     {
                         if (int.Parse(input[0]) == 3)
                         {
-                            prisms.Add(new Prism3(double.Parse(input[1]), double.Parse(input[2])));
+                            prisms.Add(new Prism3(double.Parse(input[2]), double.Parse(input[1])));
                         }
                         else if (int.Parse(input[0]) == 4)
                         {
-                            prisms.Add(new Prism4(double.Parse(input[1]), double.Parse(input[2])));
+                            prisms.Add(new Prism4(double.Parse(input[2]), double.Parse(input[1])));
                         }
                         else
                         {
@@ -64,7 +64,7 @@ namespace PB_Lab2._5_cs
         {
             (double volumeSum, double surfaceSum) = ProcessPrisms(prisms);
             Console.WriteLine($"Sum of volumes of triangular prisms: {volumeSum}");
-            Console.WriteLine($"Sume of surfaces of square prisms: {surfaceSum}");
+            Console.WriteLine($"Sum of surfaces of square prisms: {surfaceSum}");
         }
     }
 }

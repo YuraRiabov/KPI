@@ -1,6 +1,5 @@
 from Prism3 import Prism3
 from Prism4 import Prism4
-from Prism import Prism
 
 
 def get_prisms():
@@ -12,10 +11,10 @@ def get_prisms():
         members = line.split(" ")
         if len(members) == 3:
             if int(members[0]) == 3:
-                prisms.append(Prism3(float(members[1]), float(members[2])))
+                prisms.append(Prism3(float(members[2]), float(members[1])))
                 i += 1
             elif int(members[0]) == 4:
-                prisms.append(Prism4(float(members[1]), float(members[2])))
+                prisms.append(Prism4(float(members[2]), float(members[1])))
                 i += 1
             else:
                 print("Wrong number of sides, try again")
