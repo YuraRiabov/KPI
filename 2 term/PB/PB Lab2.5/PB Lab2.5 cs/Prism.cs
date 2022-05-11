@@ -12,7 +12,11 @@ namespace PB_Lab2._5_cs
         public double SideLength { get; set; }
         public abstract double CalculateSurface();
         public abstract double CalculateBaseSurface();
-        public abstract double CalculateVolume();
+
+        public double CalculateVolume()
+        {
+            return CalculateBaseSurface() * Height;
+        }
         public Prism(double height, double sideLength)
         {
             Height = height;

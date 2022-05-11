@@ -20,10 +20,5 @@ namespace PB_Lab2._5_cs
         {
             return CalculateBaseSurface() * 2 + SideLength * Height * 4;
         }
-
-        public override double CalculateVolume()
-        {
-            return CalculateBaseSurface() * Height;
-        }
     }
 }
