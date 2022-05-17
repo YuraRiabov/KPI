@@ -18,7 +18,7 @@ namespace PB_lab2._6
                 {
                     text = sr.ReadToEnd();
                 }
-                words = text.Split(' ', ',', '.', '!', '?', '\n', '\r').Where(x => x.Length > 0).ToList();
+                words = text.Split(' ', ',', '.', '!', '?', '\n', '\r', '(', ')', '\'', '\"').Where(x => x.Length > 0).ToList();
             }
             return words;
         }
