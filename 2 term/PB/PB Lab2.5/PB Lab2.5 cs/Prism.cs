@@ -17,7 +17,8 @@ namespace PB_Lab2._5_cs
         {
             return CalculateBaseSurface() * Height;
         }
-        public Prism(double height, double sideLength)
+
+        protected Prism(double height, double sideLength)
         {
             Height = height;
             SideLength = sideLength;
