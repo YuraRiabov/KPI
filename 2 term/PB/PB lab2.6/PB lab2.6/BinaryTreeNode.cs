@@ -18,9 +18,5 @@ namespace PB_lab2._6
             LeftChild = null;
             RightChild = null;
         }
-        public bool IsLeaf()
-        {
-            return LeftChild != null || RightChild != null;
-        }
     }
 }
