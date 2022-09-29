@@ -2,15 +2,15 @@
 
 public static class Sorter
 {
-    public const string FirstHelperFile = "firstHelper.txt";
-    public const string SecondHelperFile = "secondHelper.txt";
+    private const string FirstHelperFile = "firstHelper.dat";
+    private const string SecondHelperFile = "secondHelper.dat";
 
     public static void Sort(string fileName, int arraySize)
     {
         var maxSequence = 0;
         while (maxSequence < arraySize)
         {
-            maxSequence = SplitFile(fileName, maxSequence);
+            SplitFile(fileName, ref maxSequence);
 
             if (maxSequence < arraySize)
             {
@@ -19,18 +19,46 @@ public static class Sorter
         }
     }
 
+    public static void SortParts(string fileName, string outputFileName, int size, int shareSize)
+    {
+        if (File.Exists(outputFileName))
+        {
+            File.Delete(outputFileName);
+        }
+        
+        var array = new int[shareSize];
+        using var reader = new BinaryReader(File.Open(fileName, FileMode.Open));
+        using var writer = new BinaryWriter(File.Open(outputFileName, FileMode.OpenOrCreate));
+        for (int i = 0; i < size / shareSize; i++)
+        {
+            for (int j = 0; j < shareSize; j++)
+            {
+                array[j] = reader.ReadInt32();
+            }
+            Array.Sort(array);
+            for (int j = 0; j < shareSize; j++)
+            {
+                writer.Write(array[j]);
+            }
+        }
+    }
+
     private static void RewriteFile(string fileName)
     {
-        using (var mainWriter = new StreamWriter(fileName))
+        if (File.Exists(fileName))
         {
-            using (var firstReader = new StreamReader(FirstHelperFile))
+            File.Delete(fileName);
+        }
+        using (var mainWriter = new BinaryWriter(File.Open(fileName, FileMode.OpenOrCreate)))
+        {
+            using (var firstReader = new BinaryReader(File.Open(FirstHelperFile, FileMode.OpenOrCreate)))
             {
-                using (var secondReader = new StreamReader(SecondHelperFile))
+                using (var secondReader = new BinaryReader(File.Open(SecondHelperFile, FileMode.OpenOrCreate)))
                 {
-                    int currentFirst = int.Parse(firstReader.ReadLine() ?? $"{int.MaxValue}");
-                    int currentSecond = int.Parse(secondReader.ReadLine() ?? $"{int.MaxValue}");
-                    var nextFirst = int.Parse(firstReader.ReadLine() ?? $"{int.MaxValue}");
-                    var nextSecond = int.Parse(secondReader.ReadLine() ?? $"{int.MaxValue}");
+                    int currentFirst = GetInt(firstReader);
+                    int currentSecond = GetInt(secondReader);
+                    var nextFirst = GetInt(firstReader);
+                    var nextSecond = GetInt(secondReader);
                     while (nextFirst != int.MinValue && nextSecond != int.MinValue)
                     {
                         currentSecond = MergeSeries(currentSecond, mainWriter, secondReader, firstReader, ref nextSecond, ref currentFirst, ref nextFirst);
@@ -53,7 +81,7 @@ public static class Sorter
 
                         if (currentSecond != int.MaxValue)
                         {
-                            mainWriter.WriteLine(currentSecond);
+                            mainWriter.Write(currentSecond);
                         }
                     }
                 }
@@ -61,8 +89,20 @@ public static class Sorter
         }
     }
 
-    private static int MergeSeries(int currentSecond, StreamWriter mainWriter, StreamReader secondReader,
-        StreamReader firstReader, ref int nextSecond, ref int currentFirst, ref int nextFirst)
+    private static int GetInt(BinaryReader reader)
+    {
+        try
+        {
+            return reader.ReadInt32();
+        }
+        catch (EndOfStreamException)
+        {
+            return int.MaxValue;
+        }
+    }
+
+    private static int MergeSeries(int currentSecond, BinaryWriter mainWriter, BinaryReader secondReader,
+        BinaryReader firstReader, ref int nextSecond, ref int currentFirst, ref int nextFirst)
     {
         bool firstFinished = false;
         bool secondFinished = false;
@@ -118,31 +158,40 @@ public static class Sorter
         return currentSecond;
     }
 
-    private static void MoveNext(StreamWriter writer, ref int current, StreamReader reader, ref int next)
+    private static void MoveNext(BinaryWriter writer, ref int current, BinaryReader reader, ref int next)
     {
-        writer.WriteLine(current);
+        writer.Write(current);
         current = next;
         next = next == int.MaxValue
             ? int.MinValue
-            : int.Parse(reader.ReadLine() ?? $"{int.MaxValue}");
+            : GetInt(reader);
     }
 
-    private static int SplitFile(string fileName, int maxSequence)
+    private static void SplitFile(string fileName, ref int maxSequence)
     {
-        using (var mainFileReader = new StreamReader(fileName))
+        if (File.Exists(FirstHelperFile))
         {
-            using (var firstWriter = new StreamWriter(FirstHelperFile))
+            File.Delete(FirstHelperFile);
+        }
+        if (File.Exists(SecondHelperFile))
+        {
+            File.Delete(SecondHelperFile);
+        }
+        var array = FileWorker.GetArrayPart(0, 10, fileName);
+        using (var mainFileReader = new BinaryReader(File.Open(fileName, FileMode.OpenOrCreate)))
+        {
+            using (var firstWriter = new BinaryWriter(File.Open(FirstHelperFile, FileMode.OpenOrCreate)))
             {
-                using (var secondWriter = new StreamWriter(SecondHelperFile))
+                using (var secondWriter = new BinaryWriter(File.Open(SecondHelperFile, FileMode.OpenOrCreate)))
                 {
                     var currentWriter = firstWriter;
                     int currentValue;
-                    var nextValue = int.Parse(mainFileReader.ReadLine()!);
-                    while (!mainFileReader.EndOfStream)
+                    var nextValue = GetInt(mainFileReader);
+                    while (nextValue != int.MinValue)
                     {
                         int currentSequence = 0;
                         currentValue = nextValue;
-                        nextValue = int.Parse(mainFileReader.ReadLine() ?? $"{int.MaxValue}");
+                        nextValue = GetInt(mainFileReader);
                         while (currentValue <= nextValue)
                         {
                             MoveNext(currentWriter, ref currentValue, mainFileReader, ref nextValue);
@@ -151,7 +200,7 @@ public static class Sorter
 
                         if (currentValue != int.MaxValue)
                         {
-                            currentWriter.WriteLine(currentValue);
+                            currentWriter.Write(currentValue);
                             currentSequence++;
                         }
 
@@ -159,15 +208,8 @@ public static class Sorter
 
                         currentWriter = currentWriter == firstWriter ? secondWriter : firstWriter;
                     }
-
-                    if (nextValue != int.MaxValue && nextValue != int.MinValue)
-                    {
-                        currentWriter.WriteLine(nextValue);
-                    }
                 }
             }
         }
-
-        return maxSequence;
     }
 }
