@@ -2,7 +2,7 @@
 using PALab1;
 
 var fileSize = 1_000_000_000;
-var shareSize = 100_000_000;
+var shareSize = fileSize / 8;
 var fileName = "testFile.dat";
 var outputFileName = "sorted.dat";
 var sw = new Stopwatch();

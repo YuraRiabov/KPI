@@ -49,42 +49,37 @@ public static class Sorter
         {
             File.Delete(fileName);
         }
-        using (var mainWriter = new BinaryWriter(File.Open(fileName, FileMode.OpenOrCreate)))
+
+        using var mainWriter = new BinaryWriter(File.Open(fileName, FileMode.OpenOrCreate));
+        using var firstReader = new BinaryReader(File.Open(FirstHelperFile, FileMode.OpenOrCreate));
+        using var secondReader = new BinaryReader(File.Open(SecondHelperFile, FileMode.OpenOrCreate));
+        int currentFirst = GetInt(firstReader);
+        int currentSecond = GetInt(secondReader);
+        var nextFirst = GetInt(firstReader);
+        var nextSecond = GetInt(secondReader);
+        while (nextFirst != int.MinValue && nextSecond != int.MinValue)
         {
-            using (var firstReader = new BinaryReader(File.Open(FirstHelperFile, FileMode.OpenOrCreate)))
+            currentSecond = MergeSeries(currentSecond, mainWriter, secondReader, firstReader, ref nextSecond, ref currentFirst, ref nextFirst);
+        }
+
+        if (nextFirst != int.MinValue)
+        {
+            while (nextFirst != int.MinValue)
             {
-                using (var secondReader = new BinaryReader(File.Open(SecondHelperFile, FileMode.OpenOrCreate)))
-                {
-                    int currentFirst = GetInt(firstReader);
-                    int currentSecond = GetInt(secondReader);
-                    var nextFirst = GetInt(firstReader);
-                    var nextSecond = GetInt(secondReader);
-                    while (nextFirst != int.MinValue && nextSecond != int.MinValue)
-                    {
-                        currentSecond = MergeSeries(currentSecond, mainWriter, secondReader, firstReader, ref nextSecond, ref currentFirst, ref nextFirst);
-                    }
+                MoveNext(mainWriter, ref currentFirst, firstReader, ref nextFirst);
+            }
+        }
 
-                    if (nextFirst != int.MinValue)
-                    {
-                        while (nextFirst != int.MinValue)
-                        {
-                            MoveNext(mainWriter, ref currentFirst, firstReader, ref nextFirst);
-                        }
-                    }
+        if (nextSecond != int.MinValue)
+        {
+            while (nextSecond != int.MinValue)
+            {
+                MoveNext(mainWriter, ref currentSecond, secondReader, ref nextSecond);
+            }
 
-                    if (nextSecond != int.MinValue)
-                    {
-                        while (nextSecond != int.MinValue)
-                        {
-                            MoveNext(mainWriter, ref currentSecond, secondReader, ref nextSecond);
-                        }
-
-                        if (currentSecond != int.MaxValue)
-                        {
-                            mainWriter.Write(currentSecond);
-                        }
-                    }
-                }
+            if (currentSecond != int.MaxValue)
+            {
+                mainWriter.Write(currentSecond);
             }
         }
     }
@@ -177,39 +172,31 @@ public static class Sorter
         {
             File.Delete(SecondHelperFile);
         }
-        var array = FileWorker.GetArrayPart(0, 10, fileName);
-        using (var mainFileReader = new BinaryReader(File.Open(fileName, FileMode.OpenOrCreate)))
+        using var mainFileReader = new BinaryReader(File.Open(fileName, FileMode.OpenOrCreate));
+        using var firstWriter = new BinaryWriter(File.Open(FirstHelperFile, FileMode.OpenOrCreate));
+        using var secondWriter = new BinaryWriter(File.Open(SecondHelperFile, FileMode.OpenOrCreate));
+        var currentWriter = firstWriter;
+        var nextValue = GetInt(mainFileReader);
+        while (nextValue != int.MinValue)
         {
-            using (var firstWriter = new BinaryWriter(File.Open(FirstHelperFile, FileMode.OpenOrCreate)))
+            int currentSequence = 0;
+            int currentValue = nextValue;
+            nextValue = GetInt(mainFileReader);
+            while (currentValue <= nextValue)
             {
-                using (var secondWriter = new BinaryWriter(File.Open(SecondHelperFile, FileMode.OpenOrCreate)))
-                {
-                    var currentWriter = firstWriter;
-                    int currentValue;
-                    var nextValue = GetInt(mainFileReader);
-                    while (nextValue != int.MinValue)
-                    {
-                        int currentSequence = 0;
-                        currentValue = nextValue;
-                        nextValue = GetInt(mainFileReader);
-                        while (currentValue <= nextValue)
-                        {
-                            MoveNext(currentWriter, ref currentValue, mainFileReader, ref nextValue);
-                            currentSequence++;
-                        }
-
-                        if (currentValue != int.MaxValue)
-                        {
-                            currentWriter.Write(currentValue);
-                            currentSequence++;
-                        }
-
-                        maxSequence = currentSequence > maxSequence ? currentSequence : maxSequence;
-
-                        currentWriter = currentWriter == firstWriter ? secondWriter : firstWriter;
-                    }
-                }
+                MoveNext(currentWriter, ref currentValue, mainFileReader, ref nextValue);
+                currentSequence++;
             }
+
+            if (currentValue != int.MaxValue)
+            {
+                currentWriter.Write(currentValue);
+                currentSequence++;
+            }
+
+            maxSequence = currentSequence > maxSequence ? currentSequence : maxSequence;
+
+            currentWriter = currentWriter == firstWriter ? secondWriter : firstWriter;
         }
     }
 }
