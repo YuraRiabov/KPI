@@ -48,6 +48,7 @@ namespace DesktopInterface
                 Value = InsertInput.Text
             };
             _db.Tree.Insert(entrance);
+            InsertResultLabel.Text = $"Successfully inserted, key: {_db.CurrentIndex}";
             _db.CurrentIndex++;
         }
 

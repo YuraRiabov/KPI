@@ -44,6 +44,7 @@
             this.FindResultLabel = new System.Windows.Forms.Label();
             this.DeleteResultLabel = new System.Windows.Forms.Label();
             this.UpdateResultLabel = new System.Windows.Forms.Label();
+            this.InsertResultLabel = new System.Windows.Forms.Label();
             this.SuspendLayout();
             // 
             // label1
@@ -185,11 +186,20 @@
             this.UpdateResultLabel.Size = new System.Drawing.Size(0, 15);
             this.UpdateResultLabel.TabIndex = 15;
             // 
+            // InsertResultLabel
+            // 
+            this.InsertResultLabel.AutoSize = true;
+            this.InsertResultLabel.Location = new System.Drawing.Point(92, 107);
+            this.InsertResultLabel.Name = "InsertResultLabel";
+            this.InsertResultLabel.Size = new System.Drawing.Size(0, 15);
+            this.InsertResultLabel.TabIndex = 16;
+            // 
             // RedBlackDbForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(482, 450);
+            this.Controls.Add(this.InsertResultLabel);
             this.Controls.Add(this.UpdateResultLabel);
             this.Controls.Add(this.DeleteResultLabel);
             this.Controls.Add(this.FindResultLabel);
@@ -231,5 +241,6 @@
         private Label FindResultLabel;
         private Label DeleteResultLabel;
         private Label UpdateResultLabel;
+        private Label InsertResultLabel;
     }
 }
