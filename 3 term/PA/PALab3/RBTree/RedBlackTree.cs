@@ -158,6 +158,45 @@ public class RedBlackTree<T> where T : IComparable
         return Root?.Find(content);
     }
 
+    public (RedBlackNode<T>?, int) FindWithCount(T content)
+    {
+        var count = 0;
+        var currentNode = Root;
+        while (currentNode != null)
+        {
+            var comparison = currentNode.Value.CompareTo(content);
+            count++;
+            if (comparison == 0)
+            {
+                return (currentNode, count);
+            }
+            if (comparison > 0)
+            {
+                if (currentNode.HasLeft)
+                {
+                    currentNode = currentNode.LeftChild;
+                }
+                else
+                {
+                    return (null, count);
+                }
+            }
+            if (comparison < 0)
+            {
+                if (currentNode.HasRight)
+                {
+                    currentNode = currentNode.RightChild;
+                }
+                else
+                {
+                    return (null, count);
+                }
+            }
+        }
+
+        return (null, 0);
+    }
+
     public List<RedBlackNode<T>> Traverse()
     {
         var result = new List<RedBlackNode<T>>();
@@ -318,7 +357,7 @@ public class RedBlackTree<T> where T : IComparable
             }
             else
             {
-                this.Rotate(node.Grandparent, RotationDirection.Left);
+                Rotate(node.Grandparent, RotationDirection.Left);
             }
         }
     }
