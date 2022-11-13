@@ -4,7 +4,7 @@ using RBTree;
 
 var tree = new RedBlackTree<int>();
 
-for (int i = 0; i < 10; i++)
+for (int i = 0; i < 100000; i++)
 {
     tree.Insert(i);
 }
@@ -14,18 +14,9 @@ using (var fs = new FileStream("tree.json", FileMode.Create))
     JsonSerializer.Serialize(fs, tree);
 }
 
-RedBlackTree<int> newTree;
-using (var fs = new FileStream("tree.json", FileMode.Open))
+for (int i = 1000; i < 20000; i+=100)
 {
-    newTree = JsonSerializer.Deserialize<RedBlackTree<int>>(fs);
-    newTree.RestoreConnections();
-    for (int i = 10; i < 20; i++)
-    {
-        newTree.Insert(i);
-    }
+    var node = tree.Find(i);
+    tree.Remove(node);
 }
-
-using (var fs = new FileStream("tree.json", FileMode.Create))
-{
-    JsonSerializer.Serialize(fs, newTree);
-}
+Console.WriteLine(tree.Verify());

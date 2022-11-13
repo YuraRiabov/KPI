@@ -25,7 +25,7 @@ public class RedBlackNode<T> : IComparable where T: IComparable
     public RedBlackNode<T>? Grandparent => Parent?.Parent;
 
     [JsonIgnore]
-    public RedBlackNode<T>? Successor
+    public RedBlackNode<T> Successor
     {
         get
         {
@@ -49,6 +49,9 @@ public class RedBlackNode<T> : IComparable where T: IComparable
 
     [JsonIgnore]
     public bool HasLeft => LeftChild is not null;
+
+    [JsonIgnore] 
+    public bool IsTerminate => !HasRight && !HasLeft;
 
     public RedBlackNode(T value, NodeColor color)
     {
@@ -119,5 +122,18 @@ public class RedBlackNode<T> : IComparable where T: IComparable
 
         RightChild = nodeToInsert;
         RightChild.Parent = this;
+    }
+
+    internal int GetBlackHeight()
+    {
+        var ownValue = Color == NodeColor.Black ? 1 : 0;
+        if (IsTerminate)
+        {
+            return ownValue;
+        }
+
+        var leftValue = LeftChild?.GetBlackHeight() ?? -1;
+        var rightValue = RightChild?.GetBlackHeight() ?? -1;
+        return (leftValue > rightValue ? leftValue : rightValue) + ownValue;
     }
 }
