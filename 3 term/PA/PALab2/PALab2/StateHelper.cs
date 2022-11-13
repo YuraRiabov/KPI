@@ -127,4 +127,28 @@ public static class StateHelper
         { 4, 0, 6 },
         { 7, 5, 8 }
     };
+
+    public static void ShowPath(this State state)
+    {
+        var path = state.GetPath();
+        path.Reverse();
+        
+        Console.ForegroundColor = ConsoleColor.Yellow;
+        foreach (var position in path)
+        {
+            for (int i = 0; i < 3; i++)
+            {
+                for (int j = 0; j < 3; j++)
+                {
+                    Console.Write(position.Matrix[i, j] + " ");
+                }
+
+                Console.WriteLine();
+            }
+
+            Console.WriteLine();
+        }
+
+        Console.ForegroundColor = ConsoleColor.White;
+    }
 }

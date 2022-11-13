@@ -40,8 +40,6 @@ public class RBFS
                 return new SearchResult(null, children[bestIndex].Evaluation);
             }
             
-            
-
             var sr = SolveRecursive(children[bestIndex], Math.Min(limit, children[altIndex].Evaluation));
 
             if (sr.State is not null)
