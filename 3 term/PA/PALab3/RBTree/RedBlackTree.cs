@@ -25,18 +25,14 @@ public class RedBlackTree<T> where T : IComparable
             node = node.Successor;
         }
 
-        // if red and has no more than 1 child - it hasn't child
         if (node.Color == NodeColor.Red)
         {
             RemoveLeaf(node);
             return;
         }
 
-        // node is black
         var child = node.RightChild;
 
-        // if black node has only 1 red child - copy content and remove child
-        // (red child cannot contain any nodes)
         if (child != null && child.Color == NodeColor.Red)
         {
             node.Value = child.Value;
@@ -44,7 +40,6 @@ public class RedBlackTree<T> where T : IComparable
             return;
         }
 
-        // node is black and no childs (black node cannot has just 1 black child)
         FixOnDelete(node);
         RemoveLeaf(node);
     }
@@ -56,7 +51,6 @@ public class RedBlackTree<T> where T : IComparable
             return;
         }
 
-        // node is black
         var parent = node.Parent;
         var sibling = node.Sibling;
 
@@ -77,9 +71,6 @@ public class RedBlackTree<T> where T : IComparable
             }
         }
 
-        // after that sibling is black
-
-        // if node, parent and sibling is black and terminate - recolor sibling to red and update color of parent
         if (parent is { Color: NodeColor.Black } && sibling is { Color: NodeColor.Black, IsTerminate: true })
         {
             sibling.Color = NodeColor.Red;
@@ -87,7 +78,6 @@ public class RedBlackTree<T> where T : IComparable
             return;
         }
 
-        // if parent is red, sibling is black nd terminate - just recolor and that's all
         if (parent is { Color: NodeColor.Red } && sibling is { Color: NodeColor.Black, IsTerminate: true })
         {
             parent.Color = NodeColor.Black;
@@ -97,7 +87,6 @@ public class RedBlackTree<T> where T : IComparable
 
         var leftChildOfSibling = sibling.LeftChild;
         var rightChildOfSibling = sibling.RightChild;
-        // cases when sibling has one red child "between"
         if (node.IsLeftChild()
             && rightChildOfSibling == null
             && leftChildOfSibling is { Color: NodeColor.Red })
@@ -170,6 +159,7 @@ public class RedBlackTree<T> where T : IComparable
             {
                 return (currentNode, count);
             }
+
             if (comparison > 0)
             {
                 if (currentNode.HasLeft)
@@ -181,6 +171,7 @@ public class RedBlackTree<T> where T : IComparable
                     return (null, count);
                 }
             }
+
             if (comparison < 0)
             {
                 if (currentNode.HasRight)
@@ -315,27 +306,21 @@ public class RedBlackTree<T> where T : IComparable
         node.Color = NodeColor.Red;
 
         RedBlackNode<T> parent = node.Parent!;
-        // if parent is black then nothing to do - all properties are still valid
         if (parent is { Color: NodeColor.Black })
         {
             return;
         }
 
-        // else we have parent as red so node has grandparent and uncle (uncle can be NIL)
         var uncle = node.Uncle;
         var grandParent = node.Grandparent;
         if (uncle is { Color: NodeColor.Red })
         {
-            // if parent and uncle boths reds then recoloring them to black
-            // and recoloring grandparent to red
             parent.Color = NodeColor.Black;
             uncle.Color = NodeColor.Black;
             FixOnInsert(grandParent);
         }
         else
         {
-            // parent is red and uncle is black (real or NIL)
-            // rotating of node "between" parent and uncle in ordering
             if (node.IsRightChild() && parent.IsLeftChild())
             {
                 parent = Rotate(parent, RotationDirection.Left);
@@ -347,8 +332,6 @@ public class RedBlackTree<T> where T : IComparable
                 node = parent.RightChild;
             }
 
-            // parent is red and uncle is black (real or NIL) and node is greater or lesser boths
-            // then rotating tree in the grandparent
             grandParent.Color = NodeColor.Red;
             parent.Color = NodeColor.Black;
             if (node.IsLeftChild() && node.Parent.IsLeftChild())
