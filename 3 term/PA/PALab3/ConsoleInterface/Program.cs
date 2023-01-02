@@ -9,6 +9,8 @@ for (int i = 0; i < 100000; i++)
     tree.Insert(i);
 }
 
+Console.WriteLine(tree.Verify());
+
 using (var fs = new FileStream("tree.json", FileMode.Create))
 {
     JsonSerializer.Serialize(fs, tree);
